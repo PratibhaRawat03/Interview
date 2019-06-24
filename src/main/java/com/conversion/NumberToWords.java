@@ -87,11 +87,12 @@ public class NumberToWords {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		String responseInWords = "";
+		try {
 		Scanner scan = new Scanner(System.in);
 		System.out.println("Please write the number & convert it to word :");
 		long number = scan.nextLong();
-		String responseInWords = "";
-		try {
+		
 			responseInWords = (number == 0) ? "Zero" : NumberToWords.convert(number);
 		} catch (NumberException e) {
 			System.out.println("Error{NumberException}! In Words  ::" + e.getCode() + " " + e.getMessage());
