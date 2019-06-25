@@ -93,7 +93,7 @@ public class NumberToWords {
 		System.out.println("Please write the number & convert it to word :");
 		long number = scan.nextLong();
 		
-			responseInWords = (number == 0) ? "Zero" : NumberToWords.convert(number);
+			responseInWords = (number == 0) ? "Zero" : NumberToWords.convert(Math.abs(number));
 		} catch (NumberException e) {
 			System.out.println("Error{NumberException}! In Words  ::" + e.getCode() + " " + e.getMessage());
 

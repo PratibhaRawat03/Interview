@@ -90,4 +90,11 @@ public class NumberToWordConvertorTest {
 	     assertEquals(" two hundred and  eleven billion  one hundred and  eleven million  one hundred and  eleven thousand  one hundred and  eleven", word);
 	}
 	
+	@Test
+	public void thirteenDigit() throws NumberException {
+		 String word = numberToWords.convert(2111111111111L);
+	     assertEquals(" two hundred and  eleven billion  one hundred and  eleven million  one hundred and  eleven thousand  one hundred and  eleven", word);
+	}
+	
+	
 }
