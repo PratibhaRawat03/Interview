@@ -14,8 +14,8 @@ public class NumberToWords {
 		String mask = "000000000000";
 		DecimalFormat df = new DecimalFormat(mask);
 		str_num = df.format(number);
-		String tradBillions = getDigits(str_num, Constant.BILLION);
-		String tradMillions = getDigits(str_num, Constant.MILLION);
+		String tradBillions = getDigits(str_num, Constant.BILLION,0,3);
+		String tradMillions = getDigits(str_num, Constant.MILLION,3,6);
 		String hundredThousands = getThousandDigit(str_num);
 		int thousands = Integer.parseInt(str_num.substring(9, 12));
 		String thousand = Utility.numberConversion(thousands);
@@ -42,9 +42,9 @@ public class NumberToWords {
 		}
 	}
 
-	private static String getDigits(String str_num, String text) throws NumberException {
+	private static String getDigits(String str_num, String text,int start ,int end) throws NumberException {
 		try {
-			int billion = Integer.parseInt(str_num.substring(0, 3));
+			int billion = Integer.parseInt(str_num.substring(start,end));
 			String tradBillions;
 			switch (billion) {
 			case 0:
