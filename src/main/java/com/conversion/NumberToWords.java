@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.util.Scanner;
 
 import com.conversion.exception.NumberException;
+import com.conversion.utility.Constant;
 import com.conversion.utility.Utility;
 
 public class NumberToWords {
@@ -13,10 +14,10 @@ public class NumberToWords {
 		String mask = "000000000000";
 		DecimalFormat df = new DecimalFormat(mask);
 		str_num = df.format(number);
-		int thousands = Integer.parseInt(str_num.substring(9, 12));
-		String tradBillions = getBillionDigits(str_num);
-		String tradMillions = getMillionDigits(str_num);
+		String tradBillions = getDigits(str_num, Constant.BILLION);
+		String tradMillions = getDigits(str_num, Constant.MILLION);
 		String hundredThousands = getThousandDigit(str_num);
+		int thousands = Integer.parseInt(str_num.substring(9, 12));
 		String thousand = Utility.numberConversion(thousands);
 		return tradBillions + tradMillions + hundredThousands + thousand;
 	}
@@ -30,10 +31,10 @@ public class NumberToWords {
 				hundredThousanddigit = "";
 				break;
 			case 1:
-				hundredThousanddigit = "one thousand ";
+				hundredThousanddigit = Constant.ONE_THOUSAND;
 				break;
 			default:
-				hundredThousanddigit = Utility.numberConversion(hundredThousand) + " thousand ";
+				hundredThousanddigit = Utility.numberConversion(hundredThousand) + Constant.THOUSAND;
 			}
 			return hundredThousanddigit;
 		} catch (Exception e) {
@@ -41,27 +42,7 @@ public class NumberToWords {
 		}
 	}
 
-	private static String getMillionDigits(String str_num) throws NumberException {
-		try {
-			int million = Integer.parseInt(str_num.substring(3, 6));
-			String tradMillions;
-			switch (million) {
-			case 0:
-				tradMillions = "";
-				break;
-			case 1:
-				tradMillions = Utility.numberConversion(million) + " million ";
-				break;
-			default:
-				tradMillions = Utility.numberConversion(million) + " million ";
-			}
-			return tradMillions;
-		} catch (Exception e) {
-			throw new NumberException("getMillionDigits Error" + e.getMessage(), 500);
-		}
-	}
-
-	private static String getBillionDigits(String str_num) throws NumberException {
+	private static String getDigits(String str_num, String text) throws NumberException {
 		try {
 			int billion = Integer.parseInt(str_num.substring(0, 3));
 			String tradBillions;
@@ -70,14 +51,14 @@ public class NumberToWords {
 				tradBillions = "";
 				break;
 			case 1:
-				tradBillions = Utility.numberConversion(billion) + " billion ";
+				tradBillions = Utility.numberConversion(billion) + text;
 				break;
 			default:
-				tradBillions = Utility.numberConversion(billion) + " billion ";
+				tradBillions = Utility.numberConversion(billion) + text;
 			}
 			return tradBillions;
 		} catch (Exception e) {
-			throw new NumberException("getBillionDigits Error" + e.getMessage(), 500);
+			throw new NumberException("getDigits Error" + e.getMessage(), 500);
 		}
 	}
 
@@ -89,11 +70,13 @@ public class NumberToWords {
 	public static void main(String[] args) {
 		String responseInWords = "";
 		try {
-		Scanner scan = new Scanner(System.in);
-		System.out.println("Please write the number & convert it to word :");
-		long number = scan.nextLong();
-		
-			responseInWords = (number == 0) ? "Zero" : NumberToWords.convert(Math.abs(number));
+			Scanner scan = new Scanner(System.in);
+			System.out.println("Please write the number & convert it to word :");
+			long number = scan.nextLong();
+			if (number < 0) {
+				responseInWords = Constant.NEGATIVE;
+			}
+			responseInWords += (number == 0) ? Constant.ZERO: NumberToWords.convert(Math.abs(number));
 		} catch (NumberException e) {
 			System.out.println("Error{NumberException}! In Words  ::" + e.getCode() + " " + e.getMessage());
 
